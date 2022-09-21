@@ -39,5 +39,5 @@ export default async function handler(
     res.status(500).json({ data: err })
   }
 
-  res.status(200).json({ data: data })
+  res.status(200).send(data)
 }

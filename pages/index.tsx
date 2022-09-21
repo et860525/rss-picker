@@ -1,15 +1,23 @@
 import { Box, Container, Heading, Input, IconButton } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
+import React from 'react'
 import Layout from '../components/layout'
 import ThemeButton from '../components/theme-toggle-button'
+import { RSS } from '../interfaces'
+import RssShow from '../components/rss-show'
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 export default function HomePage() {
+  let [rssData, setRssData] = React.useState<RSS | undefined>(undefined)
+  let [feed, setFeed] = React.useState('')
+
   const submitContact = async (event) => {
     event.preventDefault()
-    const res = await fetch(`/api/rss?feed=${event.target.feed.value}`)
-    const data = await res.json()
+    setFeed((feed = event.target.feed.value))
+    // const res = await fetch(`/api/rss?feed=${event.target.feed.value}`)
+    // const data = await res.json()
+    // setRssData((rssData = data.data))
   }
   return (
     <Layout title="RSS List">
@@ -33,9 +41,8 @@ export default function HomePage() {
             />
           </Box>
         </form>
-        <Box>
-          <Heading as="h2">Result</Heading>
-          <div></div>
+        <Box my="10" textAlign="center">
+          <div>{feed ? <RssShow props={feed} /> : <h1>No Data</h1>}</div>
         </Box>
       </Container>
     </Layout>
